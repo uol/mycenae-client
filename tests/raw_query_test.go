@@ -7,9 +7,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/uol/mycenae-shared/raw"
+
 	"github.com/Pallinder/go-randomdata"
 	"github.com/stretchr/testify/assert"
-	"github.com/uol/funks"
 	gotesthttp "github.com/uol/gotest/http"
 	"github.com/uol/mycenae-client"
 )
@@ -31,55 +32,55 @@ func randomTags() map[string]string {
 	return tags
 }
 
-func generateRandomRawNumberResult() *mycenae.RawDataQueryNumberResults {
+func generateRandomRawNumberResult() *raw.NumberQueryResults {
 
 	numRes := randomdata.Number(1, 5)
-	results := make([]mycenae.RawDataQueryNumberPoints, numRes)
+	results := make([]raw.NumberPoints, numRes)
 	for i := 0; i < numRes; i++ {
-		results[i] = mycenae.RawDataQueryNumberPoints{
-			Metadata: mycenae.RawDataMetadata{
+		results[i] = raw.NumberPoints{
+			Metadata: raw.Metadata{
 				Metric: randomMetric(),
 				Tags:   randomTags(),
 			},
-			Values: []mycenae.RawDataNumberPoint{},
+			Values: []raw.NumberPoint{},
 		}
 
 		for j := 0; j < randomdata.Number(5, 10); j++ {
-			results[i].Values = append(results[i].Values, mycenae.RawDataNumberPoint{
+			results[i].Values = append(results[i].Values, raw.NumberPoint{
 				Timestamp: time.Now().Unix(),
 				Value:     float64(randomdata.Number(500000)),
 			})
 		}
 	}
 
-	return &mycenae.RawDataQueryNumberResults{
+	return &raw.NumberQueryResults{
 		Results: results,
 		Total:   len(results),
 	}
 }
 
-func generateRandomRawTextResult() *mycenae.RawDataQueryTextResults {
+func generateRandomRawTextResult() *raw.TextQueryResults {
 
 	numRes := randomdata.Number(1, 5)
-	results := make([]mycenae.RawDataQueryTextPoints, numRes)
+	results := make([]raw.TextPoints, numRes)
 	for i := 0; i < numRes; i++ {
-		results[i] = mycenae.RawDataQueryTextPoints{
-			Metadata: mycenae.RawDataMetadata{
+		results[i] = raw.TextPoints{
+			Metadata: raw.Metadata{
 				Metric: randomMetric(),
 				Tags:   randomTags(),
 			},
-			Texts: []mycenae.RawDataTextPoint{},
+			Texts: []raw.TextPoint{},
 		}
 
 		for j := 0; j < randomdata.Number(5, 10); j++ {
-			results[i].Texts = append(results[i].Texts, mycenae.RawDataTextPoint{
+			results[i].Texts = append(results[i].Texts, raw.TextPoint{
 				Timestamp: time.Now().Unix(),
 				Text:      randomdata.City(),
 			})
 		}
 	}
 
-	return &mycenae.RawDataQueryTextResults{
+	return &raw.TextQueryResults{
 		Results: results,
 		Total:   len(results),
 	}
@@ -132,16 +133,16 @@ func getRawQueryResponses(rd *mycenaeRandomData) (successResponses, alternateRes
 	return
 }
 
-func buildRandomRawQuery(ctype string) *mycenae.RawDataQueryJSON {
+func buildRandomRawQuery(ctype string) *raw.Query {
 
-	return &mycenae.RawDataQueryJSON{
-		RawDataQuery: mycenae.RawDataQuery{
+	return &raw.Query{
+		Metadata: raw.Metadata{
 			Metric: randomMetric(),
-			Since:  *funks.ForceNewStringDuration(fmt.Sprintf("%dm", randomdata.Number(1, 59))),
-			Until:  *funks.ForceNewStringDuration(fmt.Sprintf("%dm", randomdata.Number(1, 10))),
 			Tags:   randomTags(),
 		},
-		Type: ctype,
+		Since: fmt.Sprintf("%dm", randomdata.Number(1, 59)),
+		Until: fmt.Sprintf("%dm", randomdata.Number(1, 10)),
+		Type:  ctype,
 	}
 }
 
@@ -152,7 +153,7 @@ func testNumberRawQuery(t *testing.T, client *mycenae.Client, server *gotesthttp
 	query := buildRandomRawQuery("meta")
 	jsonQuery := mustMarshalJSON(query)
 
-	results, err := client.GetRawPoints(&query.RawDataQuery)
+	results, err := client.GetRawPoints(query)
 	if !assert.NoError(t, err, "expected no error calling api") {
 		return
 	}
@@ -169,7 +170,7 @@ func testNumberRawQuery(t *testing.T, client *mycenae.Client, server *gotesthttp
 
 	server.SetMode(cEmptyMode)
 
-	results, err = client.GetRawPoints(&query.RawDataQuery)
+	results, err = client.GetRawPoints(query)
 	if !assert.NoError(t, err, "expected no error calling api") {
 		return
 	}
@@ -182,7 +183,7 @@ func testNumberRawQuery(t *testing.T, client *mycenae.Client, server *gotesthttp
 
 	server.SetMode(cErrorMode)
 
-	results, err = client.GetRawPoints(&query.RawDataQuery)
+	results, err = client.GetRawPoints(query)
 	if !assert.Error(t, err, "expected error calling api") {
 		return
 	}
@@ -201,7 +202,7 @@ func testTextRawQuery(t *testing.T, client *mycenae.Client, server *gotesthttp.S
 	query := buildRandomRawQuery("metatext")
 	jsonQuery := mustMarshalJSON(query)
 
-	results, err := client.GetRawTextPoints(&query.RawDataQuery)
+	results, err := client.GetRawTextPoints(query)
 	if !assert.NoError(t, err, "expected no error calling api") {
 		return
 	}
@@ -218,7 +219,7 @@ func testTextRawQuery(t *testing.T, client *mycenae.Client, server *gotesthttp.S
 
 	server.SetMode(cEmptyMode)
 
-	results, err = client.GetRawTextPoints(&query.RawDataQuery)
+	results, err = client.GetRawTextPoints(query)
 	if !assert.NoError(t, err, "expected no error calling api") {
 		return
 	}
@@ -231,7 +232,7 @@ func testTextRawQuery(t *testing.T, client *mycenae.Client, server *gotesthttp.S
 
 	server.SetMode(cErrorMode)
 
-	results, err = client.GetRawTextPoints(&query.RawDataQuery)
+	results, err = client.GetRawTextPoints(query)
 	if !assert.Error(t, err, "expected error calling api") {
 		return
 	}

@@ -10,4 +10,6 @@ require (
 	github.com/stretchr/testify v1.6.1
 	github.com/uol/funks v1.2.1
 	github.com/uol/gotest v1.7.1
+	github.com/uol/mycenae-shared v1.0.0 // indirect
+	github.com/uol/mycenae-shared/raw v0.0.0-20200710190654-42803ccd0c65
 )

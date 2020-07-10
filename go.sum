@@ -2,6 +2,8 @@ github.com/BurntSushi/toml v0.3.1 h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/Pallinder/go-randomdata v1.2.0 h1:DZ41wBchNRb/0GfsePLiSwb0PHZmT67XY00lCDlaYPg=
 github.com/Pallinder/go-randomdata v1.2.0/go.mod h1:yHmJgulpD2Nfrm0cR9tI/+oAgRqCQQixsA8HyRZfV9Y=
+github.com/buger/jsonparser v1.0.0 h1:etJTGF5ESxjI0Ic2UaLQs2LQQpa8G9ykQScukbh4L8A=
+github.com/buger/jsonparser v1.0.0/go.mod h1:tgcrVJ81GPSF0mz+0nu1Xaz0fazGPrmmJfJtxjbHhUQ=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -30,10 +32,12 @@ github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/uol/funks v1.2.1 h1:Dd1sdr0vH/cogbsB5E4TUD1XZIxoo70KhGWlgAulTW4=
 github.com/uol/funks v1.2.1/go.mod h1:ZJgft/KejtLCg85YJ5FG7JaS46p1nuckfy0lqhmQGYM=
 github.com/uol/gotest v1.3.1/go.mod h1:6b63TSHZJ+0djdNqOghCK01KZqkHtR/n/sRPwjlfBXA=
-github.com/uol/gotest v1.7.0 h1:OQ4BvgkuprrNqZEqYJwEkIQ/QAXfAyAtIO+cxUKjErk=
-github.com/uol/gotest v1.7.0/go.mod h1:nzX3SSiymMZ9t8DIu5VKPz6oNb/m6sCXJRsGB+LnU3Y=
 github.com/uol/gotest v1.7.1 h1:aScMuYGNvg2TRhZFSxWwgTe+03ABYE1emh+EPiikteY=
 github.com/uol/gotest v1.7.1/go.mod h1:nzX3SSiymMZ9t8DIu5VKPz6oNb/m6sCXJRsGB+LnU3Y=
+github.com/uol/mycenae-shared v1.0.0 h1:tl7exJN1W2LEAVGS5UJg+IDkAx1zzyrdPjhGpBbV4oI=
+github.com/uol/mycenae-shared v1.0.0/go.mod h1:6yVZ3QxAvpnZodoNbQ6wgQ65lildw7IrX1bSiwoncWM=
+github.com/uol/mycenae-shared/raw v0.0.0-20200710190654-42803ccd0c65 h1:NQn36bXmmtATB1VrGuzaEN6TfzhzJBoutzNFB9U2q/M=
+github.com/uol/mycenae-shared/raw v0.0.0-20200710190654-42803ccd0c65/go.mod h1:eAGXqt0DRUgwlTxVPLyXL5xxZ9cWRuQV1b3ELWLdCDE=
 golang.org/x/text v0.3.3 h1:cokOdA+Jmi5PJGXLlLllQSgYigAEfHXJAERHVMaCc2k=
 golang.org/x/text v0.3.3/go.mod h1:5Zoc/QRtKVWzQhOtBMvqHzDpF6irO9z98xDceosuGiQ=
 golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e/go.mod h1:n7NCudcB/nEzxVGmLbDWY5pfWTLqBcC2KZ6jyYvM4mQ=

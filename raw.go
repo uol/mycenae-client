@@ -3,7 +3,7 @@ package mycenae
 import (
 	"net/http"
 
-	"github.com/uol/funks"
+	"github.com/uol/mycenae-shared/raw"
 )
 
 var (
@@ -15,66 +15,10 @@ const (
 	cTextResult   string = "metatext"
 )
 
-// RawDataQuery - the raw data query JSON
-type RawDataQuery struct {
-	Metric string            `json:"metric"`
-	Tags   map[string]string `json:"tags"`
-	Since  funks.Duration    `json:"since"`
-	Until  funks.Duration    `json:"until"`
-}
-
-// RawDataQueryJSON - the raw data query JSON
-type RawDataQueryJSON struct {
-	RawDataQuery
-	Type string `json:"type"`
-}
-
-// RawDataMetadata - the raw data (metadata only)
-type RawDataMetadata struct {
-	Metric string            `json:"metric"`
-	Tags   map[string]string `json:"tags"`
-}
-
-// RawDataNumberPoint - represents a raw number point result
-type RawDataNumberPoint struct {
-	Timestamp int64   `json:"timestamp"`
-	Value     float64 `json:"value"`
-}
-
-// RawDataTextPoint - represents a raw text point result
-type RawDataTextPoint struct {
-	Timestamp int64  `json:"timestamp"`
-	Text      string `json:"text"`
-}
-
-// RawDataQueryNumberPoints - the metadata and value results
-type RawDataQueryNumberPoints struct {
-	Metadata RawDataMetadata      `json:"metadata"`
-	Values   []RawDataNumberPoint `json:"points"`
-}
-
-// RawDataQueryTextPoints - the metadata and text results
-type RawDataQueryTextPoints struct {
-	Metadata RawDataMetadata    `json:"metadata"`
-	Texts    []RawDataTextPoint `json:"points"`
-}
-
-// RawDataQueryNumberResults - the final raw query number results
-type RawDataQueryNumberResults struct {
-	Results []RawDataQueryNumberPoints `json:"results"`
-	Total   int                        `json:"total"`
-}
-
-// RawDataQueryTextResults - the final raw query text results
-type RawDataQueryTextResults struct {
-	Results []RawDataQueryTextPoints `json:"results"`
-	Total   int                      `json:"total"`
-}
-
 // GetRawPoints - return the list of raw points
-func (c *Client) GetRawPoints(query *RawDataQuery) (*RawDataQueryNumberResults, error) {
+func (c *Client) GetRawPoints(query *raw.Query) (*raw.NumberQueryResults, error) {
 
-	results := &RawDataQueryNumberResults{}
+	results := &raw.NumberQueryResults{}
 
 	err := c.getRawPoints(query, cNumberResult, results)
 	if err != nil {
@@ -89,9 +33,9 @@ func (c *Client) GetRawPoints(query *RawDataQuery) (*RawDataQueryNumberResults, 
 }
 
 // GetRawTextPoints - return the list of raw text points
-func (c *Client) GetRawTextPoints(query *RawDataQuery) (*RawDataQueryTextResults, error) {
+func (c *Client) GetRawTextPoints(query *raw.Query) (*raw.TextQueryResults, error) {
 
-	results := &RawDataQueryTextResults{}
+	results := &raw.TextQueryResults{}
 
 	err := c.getRawPoints(query, cTextResult, results)
 	if err != nil {
@@ -106,14 +50,11 @@ func (c *Client) GetRawTextPoints(query *RawDataQuery) (*RawDataQueryTextResults
 }
 
 // getRawPoints - return the list of raw points
-func (c *Client) getRawPoints(query *RawDataQuery, ctype string, results interface{}) error {
+func (c *Client) getRawPoints(query *raw.Query, ctype string, results interface{}) error {
 
-	jsonQuery := RawDataQueryJSON{
-		RawDataQuery: *query,
-		Type:         ctype,
-	}
+	query.Type = ctype
 
-	status, err := c.DoJSONRequest(&endpointRawGET, nil, jsonQuery, results)
+	status, err := c.DoJSONRequest(&endpointRawGET, nil, query, results)
 	if err != nil {
 		return err
 	}

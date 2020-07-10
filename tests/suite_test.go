@@ -5,6 +5,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/uol/mycenae-shared/raw"
+
 	"github.com/stretchr/testify/assert"
 
 	"github.com/uol/funks"
@@ -28,8 +30,8 @@ const (
 
 type mycenaeRandomData struct {
 	keysets          []string
-	rawNumberResults *mycenae.RawDataQueryNumberResults
-	rawTextResults   *mycenae.RawDataQueryTextResults
+	rawNumberResults *raw.NumberQueryResults
+	rawTextResults   *raw.TextQueryResults
 }
 
 func mustMarshalJSON(data interface{}) string {
