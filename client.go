@@ -30,10 +30,32 @@ type Client struct {
 
 // Configuration - client configurations
 type Configuration struct {
-	Host    string
-	Port    int
-	Secure  bool
-	Timeout funks.Duration
+	Host    string         `json:"host"`
+	Port    int            `json:"port"`
+	Secure  bool           `json:"secure"`
+	Timeout funks.Duration `json:"timeout"`
+}
+
+// Validate - validates the configuration parameters
+func (c *Configuration) Validate() error {
+
+	if c == nil {
+		return ErrNullConfiguration
+	}
+
+	if len(c.Host) == 0 {
+		return ErrInvalidHost
+	}
+
+	if c.Port == 0 {
+		return ErrInvalidPort
+	}
+
+	if c.Timeout.Duration == 0 {
+		return ErrInvalidTimeout
+	}
+
+	return nil
 }
 
 type method string
@@ -57,13 +79,26 @@ const (
 var (
 	// ErrBadRequest - raised when invalid parameters are passed
 	ErrBadRequest error = errors.New("invalid parameters")
+
+	// ErrNullConfiguration - raised when a null configuration is found
+	ErrNullConfiguration error = errors.New("configuration is null")
+
+	// ErrInvalidHost - raised when a host is invalid
+	ErrInvalidHost error = errors.New("host is invalid")
+
+	// ErrInvalidPort - raised when the port is invalid
+	ErrInvalidPort error = errors.New("port is invalid")
+
+	// ErrInvalidTimeout - raised when the timeout is invalid
+	ErrInvalidTimeout error = errors.New("timeout is invalid")
 )
 
 // New - configures a new client
 func New(configuration *Configuration) (*Client, error) {
 
-	if configuration == nil {
-		return nil, errors.New("null configuration")
+	err := configuration.Validate()
+	if err != nil {
+		return nil, err
 	}
 
 	b := strings.Builder{}
