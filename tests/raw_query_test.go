@@ -150,7 +150,7 @@ func testNumberRawQuery(t *testing.T, client *mycenae.Client, server *gotesthttp
 
 	server.SetMode(cSuccessMode)
 
-	query := buildRandomRawQuery("meta")
+	query := buildRandomRawQuery("number")
 	jsonQuery := mustMarshalJSON(query)
 
 	results, err := client.GetRawPoints(query)
@@ -199,7 +199,7 @@ func testTextRawQuery(t *testing.T, client *mycenae.Client, server *gotesthttp.S
 
 	server.SetMode(cAlternateMode)
 
-	query := buildRandomRawQuery("metatext")
+	query := buildRandomRawQuery("text")
 	jsonQuery := mustMarshalJSON(query)
 
 	results, err := client.GetRawTextPoints(query)

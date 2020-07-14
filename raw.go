@@ -11,8 +11,8 @@ var (
 )
 
 const (
-	cNumberResult string = "meta"
-	cTextResult   string = "metatext"
+	cNumberResult string = "number"
+	cTextResult   string = "text"
 )
 
 // GetRawPoints - return the list of raw points
